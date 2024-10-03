@@ -1,5 +1,6 @@
 package edu.temple.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+// TextSizeActivity.kt
 class TextSizeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,22 +17,19 @@ class TextSizeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Create array of integers that are multiples of 5
-        // Verify correctness by examining array values.
-        val textSizes = Array(20){(it + 1) * 5}
+        val textSizes = Array(20) { (it + 1) * 5 }
 
-        Log.d("Array values", textSizes.contentToString())
-
-        with (findViewById(R.id.textSizeSelectorRecyclerView) as RecyclerView) {
-
-            // TODO Step 2: Pass selected value back to activity that launched TextSizeActivity
-            adapter = TextSizeAdapter(textSizes){
-
+        with(findViewById(R.id.textSizeSelectorRecyclerView) as RecyclerView) {
+            adapter = TextSizeAdapter(textSizes) { selectedSize ->
+                // Pass the selected size back to DisplayActivity
+                val resultIntent = Intent().apply {
+                    putExtra("selectedTextSize", selectedSize)
+                }
+                setResult(RESULT_OK, resultIntent)
+                finish() // Close this activity and go back
             }
             layoutManager = LinearLayoutManager(this@TextSizeActivity)
         }
-
-
-
     }
 }
 
